@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather_Report </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./weather.css">  
+
+</head>
+
+<body>
+    <!--LOCATION SEARCH-->
+    <div class="row mt-5">
+        <h1 class="text-center mt-5">Current weather</h1>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <input id="a1" type="text" class="form-control" placeholder="Enter your locality">
+            <button onclick="search()" class="btn btn-success mt-3" type="button">SEARCH</button>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <!-- TO VIEW RESULT -->
+    <div class="row">
+
+        <div class="col-4"></div>
+        <div class="col-4" id="result"></div>        
+        <div class="col-4"></div>
+
+    </div>
+</body>
+<script>
+    function search() {
+        city = a1.value
+
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b41ec3be35c7dac8aabbc21ba253137a`)
+            .then(data=>data.json()).then(data=>displayData(data))
+
+    }
+    function displayData(details) {
+        Place = details.name
+        Type = details.weather[0].main
+        Temp = details.main.temp
+        Humidity = details.main.humidity
+        WindSpeed = details.wind.speed
+        Pressure = details.main.pressure
+        Temperature = Math.floor((Temp - 273.15))
+
+        result.innerHTML = `          
+         
+            <h3>${Place}</h3>
+            <h1>${Temperature}°C</h1>
+            <h2>${Type}</h2>
+            <h4>Humidity:${Humidity}
+            <h4>WindSpeed:${WindSpeed}km/hr</h4>
+            <h4>Pressure:${Pressure}hPa</h4>
+
+        `
+    }
+</script>
+</html>
